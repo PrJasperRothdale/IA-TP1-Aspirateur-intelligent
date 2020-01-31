@@ -8,7 +8,7 @@ namespace IA_TP1_Aspirateur_intelligent
     {
         private Sensor sensor;
         private Actors actors;
-        private List<string> tasklist;
+        private Queue<string> tasklist;
         private int[,] state;
 
         public Aspirateur()
