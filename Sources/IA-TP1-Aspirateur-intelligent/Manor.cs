@@ -13,6 +13,8 @@ namespace IA_TP1_Aspirateur_intelligent
         private static Floor floor;
         private static Schmutzfabrik schmutzfabrik;
         private static Juwelfabrik juwelfabrik;
+        
+        private int[] aspXY;
 
         private Random random = new Random();
 
@@ -112,6 +114,39 @@ namespace IA_TP1_Aspirateur_intelligent
         public int[,] getFloorState()
         {
             return floor.getState();
+        }
+
+
+        public Floor getFloor()
+        {
+            return floor;
+        }
+
+        public int[] getAspXY()
+        {
+            if (((floor.getRooms()[aspXY[0]][aspXY[1]].getState() % 4) % 2) == 1)
+            {
+                return aspXY;
+            }
+
+            else
+            {
+                for (int i = 0; i < floor.getRooms().Count; i++)
+                {
+                    for (int j = 0; j < floor.getRooms()[0].Count; j++)
+                    {
+                        if (((floor.getRooms()[i][j].getState() % 4) % 2) == 1)
+                        {
+                            aspXY[0] = i;
+                            aspXY[1] = j;
+                            return aspXY;
+                        }
+                    }
+                }
+            }
+
+            throw new Exception("Did not find the vaccum");
+
         }
     }
 }

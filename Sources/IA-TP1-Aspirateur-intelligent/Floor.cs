@@ -7,6 +7,7 @@ namespace IA_TP1_Aspirateur_intelligent
     class Floor
     {
         private List<List<Room>> rooms;
+        
 
         public Floor(int size)
         {
@@ -47,34 +48,36 @@ namespace IA_TP1_Aspirateur_intelligent
             return rooms;
         }
 
-        public void dirt(int x, int y)
+        public void dirt(int[] coo)
         {
-            rooms[x][y].dirt();
+            rooms[coo[0]][coo[1]].dirt();
         }
 
-        public void clean(int x, int y)
+        public void clean(int[] coo)
         {
-            rooms[x][y].clean();
+            rooms[coo[0]][coo[1]].clean();
         }
 
-        public void jewels(int x, int y)
+        public void jewels(int[] coo)
         {
-            rooms[x][y].jewels();
+            rooms[coo[0]][coo[1]].jewels();
         }
 
-        public void pickup(int x, int y)
+        public void pickup(int[] coo)
         {
-            rooms[x][y].pickup();
+            rooms[coo[0]][coo[1]].pickup();
         }
 
-        public void vaccumin(int x, int y)
+        public void vaccumin(int[] coo)
         {
-            rooms[x][y].vaccumin();
+            rooms[coo[0]][coo[1]].vaccumin();
         }
         
-        public void vaccumout(int x, int y)
+        public void vaccumout(int[] coo)
         {
-            rooms[x][y].vaccumout();
+            rooms[coo[0]][coo[1]].vaccumout();
         }
+
+
     }
 }

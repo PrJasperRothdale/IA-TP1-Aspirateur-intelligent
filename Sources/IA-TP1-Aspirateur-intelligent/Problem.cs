@@ -4,9 +4,10 @@ using System.Text;
 
 namespace IA_TP1_Aspirateur_intelligent
 {
-    interface Action
+    class Problem
     {
-        void enact(Floor floor, int[] vacXY);
-        void reverse(Floor floor, int[] vacXY);
+        private int[,] desire;
+        private List<Action> actions;
+
     }
 }
