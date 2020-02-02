@@ -17,12 +17,12 @@ namespace IA_TP1_Aspirateur_intelligent
 
         public void dirty(Floor floor)
         {
-            int x = random.Next(floor.getRooms().Count);
-            int y = random.Next(floor.getRooms()[0].Count);
+            int x = random.Next(floor.getState().GetLength(0));
+            int y = random.Next(floor.getState().GetLength(1));
 
             if ( random.Next(101) <= probability_matrix[x,y] )
             {
-                floor.dirt(x, y);
+                floor.dirt(new[] { x, y });
             }
         }
 

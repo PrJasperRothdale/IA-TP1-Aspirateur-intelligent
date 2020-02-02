@@ -7,14 +7,16 @@ namespace IA_TP1_Aspirateur_intelligent.Modelisation
     class Node
     {
         private int[,] state;
+        private int[] vacXY;
         private int depth;
         private int pathcost;
         private Node parent;
         private List<Node> childs;
 
-        public Node(int[,] s, int d, int pc, Node p)
+        public Node(int[,] s, int[] aspXY, int d, int pc, Node p)
         {
             state = s;
+            vacXY = aspXY;
             depth = d;
             pathcost = pc;
             parent = p;
@@ -26,6 +28,26 @@ namespace IA_TP1_Aspirateur_intelligent.Modelisation
             depth = d;
             pathcost = pc;
             childs = new List<Node>();
+        }
+
+        public int[,] getState()
+        {
+            return state;
+        }
+
+        public int getDepth()
+        {
+            return depth;
+        }
+
+        public int getPathcost()
+        {
+            return pathcost;
+        }
+
+        public int[] getVacXY()
+        {
+            return vacXY;
         }
 
         public void addChild(Node child)

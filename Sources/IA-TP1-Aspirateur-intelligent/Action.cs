@@ -8,5 +8,7 @@ namespace IA_TP1_Aspirateur_intelligent
     {
         void enact(Floor floor, int[] vacXY);
         void reverse(Floor floor, int[] vacXY);
+
+        int getCost();
     }
 }

@@ -36,8 +36,8 @@ namespace IA_TP1_Aspirateur_intelligent
 
         private int[,] probmatrixGenerator()
         {
-            int x = floor.getRooms().Count;
-            int y = floor.getRooms()[0].Count;
+            int x = floor.getState().GetLength(0);
+            int y = floor.getState().GetLength(1);
 
             int[,] probmatrix = new int[x,y];
 
@@ -124,18 +124,18 @@ namespace IA_TP1_Aspirateur_intelligent
 
         public int[] getAspXY()
         {
-            if (((floor.getRooms()[aspXY[0]][aspXY[1]].getState() % 4) % 2) == 1)
+            if (((floor.getState()[aspXY[0],aspXY[1]] % 4) % 2) == 1)
             {
                 return aspXY;
             }
 
             else
             {
-                for (int i = 0; i < floor.getRooms().Count; i++)
+                for (int i = 0; i < floor.getState().GetLength(0); i++)
                 {
-                    for (int j = 0; j < floor.getRooms()[0].Count; j++)
+                    for (int j = 0; j < floor.getState().GetLength(1); j++)
                     {
-                        if (((floor.getRooms()[i][j].getState() % 4) % 2) == 1)
+                        if (((floor.getState()[i,j] % 4) % 2) == 1)
                         {
                             aspXY[0] = i;
                             aspXY[1] = j;

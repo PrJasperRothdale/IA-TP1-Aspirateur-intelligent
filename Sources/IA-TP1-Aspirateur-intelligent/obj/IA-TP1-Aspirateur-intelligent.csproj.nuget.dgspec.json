@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "Q:\\Cours\\UQAC\\M1 - Informatique recherche\\Intelligence artificielle\\TP1\\Sources\\IA-TP1-Aspirateur-intelligent\\IA-TP1-Aspirateur-intelligent.csproj": {}
+    "D:\\Cours\\TP-IA\\IA-TP1-Aspirateur-intelligent\\Sources\\IA-TP1-Aspirateur-intelligent\\IA-TP1-Aspirateur-intelligent.csproj": {}
   },
   "projects": {
-    "Q:\\Cours\\UQAC\\M1 - Informatique recherche\\Intelligence artificielle\\TP1\\Sources\\IA-TP1-Aspirateur-intelligent\\IA-TP1-Aspirateur-intelligent.csproj": {
+    "D:\\Cours\\TP-IA\\IA-TP1-Aspirateur-intelligent\\Sources\\IA-TP1-Aspirateur-intelligent\\IA-TP1-Aspirateur-intelligent.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "Q:\\Cours\\UQAC\\M1 - Informatique recherche\\Intelligence artificielle\\TP1\\Sources\\IA-TP1-Aspirateur-intelligent\\IA-TP1-Aspirateur-intelligent.csproj",
+        "projectUniqueName": "D:\\Cours\\TP-IA\\IA-TP1-Aspirateur-intelligent\\Sources\\IA-TP1-Aspirateur-intelligent\\IA-TP1-Aspirateur-intelligent.csproj",
         "projectName": "IA-TP1-Aspirateur-intelligent",
-        "projectPath": "Q:\\Cours\\UQAC\\M1 - Informatique recherche\\Intelligence artificielle\\TP1\\Sources\\IA-TP1-Aspirateur-intelligent\\IA-TP1-Aspirateur-intelligent.csproj",
+        "projectPath": "D:\\Cours\\TP-IA\\IA-TP1-Aspirateur-intelligent\\Sources\\IA-TP1-Aspirateur-intelligent\\IA-TP1-Aspirateur-intelligent.csproj",
         "packagesPath": "C:\\Users\\Killian\\.nuget\\packages\\",
-        "outputPath": "Q:\\Cours\\UQAC\\M1 - Informatique recherche\\Intelligence artificielle\\TP1\\Sources\\IA-TP1-Aspirateur-intelligent\\obj\\",
+        "outputPath": "D:\\Cours\\TP-IA\\IA-TP1-Aspirateur-intelligent\\Sources\\IA-TP1-Aspirateur-intelligent\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Microsoft\\Xamarin\\NuGet\\",

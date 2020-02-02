@@ -4,7 +4,7 @@ using System.Text;
 
 namespace IA_TP1_Aspirateur_intelligent
 {
-    class Floor
+    public class Floor
     {
         private int[,] state;
 
@@ -23,11 +23,38 @@ namespace IA_TP1_Aspirateur_intelligent
             
         }
 
+        public Floor(int[,] s)
+        {
+            state = s;
+        }
+
         public int[,] getState()
         {
             return state;
         }
 
+        public int[] getAspXY()
+        {
+
+
+            for (int i = 0; i < state.GetLength(0); i++)
+            {
+                for (int j = 0; j < state.GetLength(1); j++)
+                {
+                    if (((state[i, j] % 4) % 2) == 1)
+                    {
+                        int[] aspXY = new int[1];
+                        aspXY[0] = i;
+                        aspXY[1] = j;
+                        return aspXY;
+                    }
+                }
+            }
+        
+
+            throw new Exception("Did not find the vaccum");
+
+        }
 
         public void dirt(int[] coo)
         {
