@@ -7,10 +7,12 @@ namespace IA_TP1_Aspirateur_intelligent
     public class Floor
     {
         private int[,] state;
+        private int[,] initialState;
 
         public Floor(int size)
         {
             state = new int[size, size];
+            initialState = new int[size, size];
 
             for (int i = 0; i < size; i++)
             {
@@ -20,17 +22,24 @@ namespace IA_TP1_Aspirateur_intelligent
                 }
 
             }
-            
+            state[0, 0] = 1;
+            initialState = state;
         }
 
         public Floor(int[,] s)
         {
             state = s;
+            initialState = s;
         }
 
         public int[,] getState()
         {
             return state;
+        }
+
+        public int[,] getInitialState()
+        {
+            return initialState;
         }
 
         public int[] getAspXY()
@@ -43,7 +52,7 @@ namespace IA_TP1_Aspirateur_intelligent
                 {
                     if (((state[i, j] % 4) % 2) == 1)
                     {
-                        int[] aspXY = new int[1];
+                        int[] aspXY = new int[2];
                         aspXY[0] = i;
                         aspXY[1] = j;
                         return aspXY;
@@ -112,6 +121,7 @@ namespace IA_TP1_Aspirateur_intelligent
 
         public void vaccumin(int[] coo)
         {
+            Console.WriteLine("Moved in of :" + coo[0] + ", " + coo[1]);
             int pstate = state[coo[0], coo[1]];
 
             if (pstate % 4 == pstate)
@@ -156,6 +166,7 @@ namespace IA_TP1_Aspirateur_intelligent
         
         public void vaccumout(int[] coo)
         {
+            Console.WriteLine("Moved out of :" + coo[0] + ", " + coo[1]);
             int pstate = state[coo[0], coo[1]];
 
             if (pstate % 4 == pstate)
@@ -191,6 +202,10 @@ namespace IA_TP1_Aspirateur_intelligent
 
         }
 
+        public void reset()
+        {
+            this.state = this.initialState;
+        }
 
     }
 }

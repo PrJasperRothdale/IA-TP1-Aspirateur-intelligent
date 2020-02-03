@@ -10,6 +10,7 @@ namespace IA_TP1_Aspirateur_intelligent
 
         public Actors()
         {
+            actions = new Dictionary<string, Action>();
             actions.Add("clean",new Actions.Clean());
             actions.Add("movedown", new Actions.MoveDown());
             actions.Add("moveleft", new Actions.MoveLeft());
@@ -21,6 +22,7 @@ namespace IA_TP1_Aspirateur_intelligent
         
         public void execute(string action)
         {
+            Console.WriteLine("Actors are doing : " + action);
             actions[action].enact(Manor.getInstance().getFloor(), Manor.getInstance().getAspXY());
         }
 

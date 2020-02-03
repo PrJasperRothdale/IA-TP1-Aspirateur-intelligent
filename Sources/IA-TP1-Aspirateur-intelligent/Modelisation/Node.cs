@@ -10,24 +10,29 @@ namespace IA_TP1_Aspirateur_intelligent.Modelisation
         private int[] vacXY;
         private int depth;
         private int pathcost;
+        private string lastaction;
         private Node parent;
         private List<Node> childs;
 
-        public Node(int[,] s, int[] aspXY, int d, int pc, Node p)
+        public Node(int[,] s, int[] aspXY, int d, int pc, string la, Node p)
         {
             state = s;
             vacXY = aspXY;
             depth = d;
             pathcost = pc;
+            lastaction = la;
             parent = p;
             childs = new List<Node>();
         }
-        public Node(int[,] s, int d, int pc)
+        public Node(int[,] s, int[] aspXY, int d, int pc, string la)
         {
             state = s;
+            vacXY = aspXY;
             depth = d;
             pathcost = pc;
+            lastaction = la;
             childs = new List<Node>();
+            parent = null;
         }
 
         public int[,] getState()
@@ -48,6 +53,16 @@ namespace IA_TP1_Aspirateur_intelligent.Modelisation
         public int[] getVacXY()
         {
             return vacXY;
+        }
+
+        public Node getParent()
+        {
+            return parent;
+        }
+
+        public string getLastAction()
+        {
+            return lastaction;
         }
 
         public void addChild(Node child)

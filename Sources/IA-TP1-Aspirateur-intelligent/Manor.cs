@@ -10,7 +10,8 @@ namespace IA_TP1_Aspirateur_intelligent
         private static int GRID_SIZE = 5;
 
         private static Manor instance;
-        private static Floor floor;
+        private Floor floor;
+        private static Aspirateur aspirateur;
         private static Schmutzfabrik schmutzfabrik;
         private static Juwelfabrik juwelfabrik;
         
@@ -23,6 +24,7 @@ namespace IA_TP1_Aspirateur_intelligent
             floor = new Floor(GRID_SIZE);
             schmutzfabrik = new Schmutzfabrik(probmatrixGenerator());
             juwelfabrik = new Juwelfabrik(probmatrixGenerator());
+            aspirateur = new Aspirateur();
         }
 
         public static Manor getInstance()
@@ -58,7 +60,7 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 schmutzfabrik.dirty(floor);
 
-                Thread.Sleep(2000);
+                Thread.Sleep(5000);
             }
         }
 
@@ -68,7 +70,17 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 juwelfabrik.drop(floor);
 
-                Thread.Sleep(2000);
+                Thread.Sleep(5000);
+            }
+        }
+
+        private void vaccumThread()
+        {
+            while(true)
+            {
+                aspirateur.wake();
+
+                Thread.Sleep(5000);
             }
         }
 
@@ -76,14 +88,18 @@ namespace IA_TP1_Aspirateur_intelligent
         {
             Thread schmutzThread = new Thread(new ThreadStart(schmutzfabrikThread));
             Thread juwelThread = new Thread(new ThreadStart(juwelfabrikThread));
+            Thread vacThread = new Thread(new ThreadStart(vaccumThread));
 
             schmutzThread.Start();
             juwelThread.Start();
+            vacThread.Start();
 
             while (true)
             {
+                vacThread.Join();
                 printFloorState();
-                Thread.Sleep(1000);
+                Console.WriteLine("THREAD : " + vacThread.ThreadState);
+                Thread.Sleep(2000);
             }
         }
 
@@ -147,6 +163,11 @@ namespace IA_TP1_Aspirateur_intelligent
 
             throw new Exception("Did not find the vaccum");
 
+        }
+
+        public int[,] DEBUG_getDesire()
+        {
+            return floor.getInitialState();
         }
     }
 }
