@@ -7,7 +7,7 @@ namespace IA_TP1_Aspirateur_intelligent
 {
     public sealed class Manor
     {
-        private static int GRID_SIZE = 5;
+        private static int GRID_SIZE = 3;
 
         private static Manor instance;
         private Floor floor;
@@ -61,7 +61,7 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 schmutzfabrik.dirty(floor);
 
-                Thread.Sleep(5000);
+                Thread.Sleep(10000);
             }
         }
 
@@ -71,7 +71,7 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 juwelfabrik.drop(floor);
 
-                Thread.Sleep(5000);
+                Thread.Sleep(10000);
             }
         }
 
@@ -81,7 +81,7 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 aspirateur.wake();
 
-                Thread.Sleep(5000);
+                Thread.Sleep(1000);
             }
         }
 
@@ -97,10 +97,10 @@ namespace IA_TP1_Aspirateur_intelligent
 
             while (true)
             {
-                vacThread.Join();
+                //vacThread.Join();
                 printFloorState();
-                Console.WriteLine("THREAD : " + vacThread.ThreadState);
-                Console.ReadLine();
+                //Console.WriteLine("THREAD : " + vacThread.ThreadState);
+                //Console.ReadLine();
                 Thread.Sleep(2000);
                 
             }
@@ -143,7 +143,7 @@ namespace IA_TP1_Aspirateur_intelligent
 
         public int[] getAspXY()
         {
-            return floor.getAspXY();
+            return (int[])floor.getAspXY().Clone();
             /*
             if (((floor.getState()[aspXY[0],aspXY[1]] % 4) % 2) == 1)
             {
@@ -174,6 +174,11 @@ namespace IA_TP1_Aspirateur_intelligent
         public int[,] DEBUG_getDesire()
         {
             return floor.getInitialState();
+        }
+
+        public int getGridSize()
+        {
+            return 3;
         }
 
         public bool isArrayEqual(int[,] a, int[,] b)

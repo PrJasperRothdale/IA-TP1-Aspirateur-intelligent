@@ -48,6 +48,7 @@ namespace IA_TP1_Aspirateur_intelligent
 
             Queue<string> queue = new Queue<string>(actions);
 
+            //Console.WriteLine("Tasklist returning ...");
             return queue;
         }
 
@@ -167,7 +168,6 @@ namespace IA_TP1_Aspirateur_intelligent
                 if ( isArrayEqual(node.getState(), n.getState()) )
                 //if (node == n)
                 {
-                    Console.WriteLine("TROUVE UNE SOLUTION");
                     return new[] { node, n };
                 }
             }
