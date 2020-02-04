@@ -29,7 +29,7 @@ namespace IA_TP1_Aspirateur_intelligent
 
             Floor testingFloor = new Floor(currentNode.getState());
 
-            /*
+            
             Console.WriteLine("Succession");
             Console.WriteLine("* -  -  -  -  -  *");
             string line;
@@ -48,7 +48,7 @@ namespace IA_TP1_Aspirateur_intelligent
             }
 
             Console.WriteLine("* -  -  -  -  -  *");
-            */
+            
 
             foreach (KeyValuePair<string, Action> entry in actions)
             {

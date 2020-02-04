@@ -76,6 +76,7 @@ namespace IA_TP1_Aspirateur_intelligent
 
             while (true)
             {
+
                 //Console.WriteLine("Tour " + caca++);
                 Dictionary<string, Modelisation.Node> s_successors = problem.succession(frontiere_fs[0]);
                 
@@ -84,13 +85,18 @@ namespace IA_TP1_Aspirateur_intelligent
                 visited_fs.Add(frontiere_fs[0]);
                 visited_fg.Add(frontiere_fg[0]);
 
+
                 frontiere_fs.RemoveAt(0);
                 frontiere_fg.RemoveAt(0);
 
 
-                foreach(KeyValuePair<string,Modelisation.Node> entry in s_successors)
+                foreach (KeyValuePair<string,Modelisation.Node> entry in s_successors)
                 {
-
+                    if (isPresent(entry.Value, visited_fs) != null)
+                    {
+                        
+                        break;
+                    }
                     if (isPresent(entry.Value, visited_fg) != null)
                     {
                         Console.WriteLine("Trouve un truc en A ");
@@ -105,6 +111,10 @@ namespace IA_TP1_Aspirateur_intelligent
 
                 foreach(KeyValuePair<string, Modelisation.Node> entry in g_successors)
                 {
+                    if (isPresent(entry.Value, visited_fg) != null)
+                    {
+                        break;
+                    }
                     if (isPresent(entry.Value, visited_fs) != null)
                     {
                         Console.WriteLine("Trouve un truc en B ");
@@ -114,6 +124,7 @@ namespace IA_TP1_Aspirateur_intelligent
                     frontiere_fg.Add(entry.Value);
                 }
 
+                //Console.ReadLine();
             }
 
         }
@@ -122,14 +133,35 @@ namespace IA_TP1_Aspirateur_intelligent
         {
             foreach( Modelisation.Node n in visited)
             {
-
-                if (node.getState() == n.getState())
+                //Console.WriteLine("Checked for presence");
+                if ( isArrayEqual(node.getState(), n.getState()) )
                 {
                     Console.WriteLine("TROUVE UNE SOLUTION");
                     return new[] { node, n };
                 }
             }
             return null;
+        }
+
+        private bool isArrayEqual(int[,] a, int[,] b)
+        {
+            if ((a.GetLength(0) != b.GetLength(0)) || (a.GetLength(1) != b.GetLength(1)))
+            {
+                return false;
+            }
+
+            for (int i = 0; i < a.GetLength(0); i++)
+            {
+                for (int j = 0; j < a.GetLength(1); j++)
+                {
+                    if (a[i, j] != b[i, j])
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
 
     }

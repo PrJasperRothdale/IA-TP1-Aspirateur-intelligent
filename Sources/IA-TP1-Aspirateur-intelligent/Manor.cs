@@ -7,7 +7,7 @@ namespace IA_TP1_Aspirateur_intelligent
 {
     public sealed class Manor
     {
-        private static int GRID_SIZE = 5;
+        private static int GRID_SIZE = 2;
 
         private static Manor instance;
         private Floor floor;
@@ -96,10 +96,11 @@ namespace IA_TP1_Aspirateur_intelligent
 
             while (true)
             {
-                //vacThread.Join();
+                vacThread.Join();
                 printFloorState();
                 Console.WriteLine("THREAD : " + vacThread.ThreadState);
                 Thread.Sleep(2000);
+                
             }
         }
 
@@ -168,6 +169,27 @@ namespace IA_TP1_Aspirateur_intelligent
         public int[,] DEBUG_getDesire()
         {
             return floor.getInitialState();
+        }
+
+        public bool isArrayEqual(int[,] a, int[,] b)
+        {
+            if ( (a.GetLength(0) != b.GetLength(0)) || (a.GetLength(1) != b.GetLength(1)))
+            {
+                return false;
+            }
+
+            for (int i=0; i < a.GetLength(0); i++)
+            {
+                for (int j=0; j < a.GetLength(1); j++)
+                {
+                    if ( a[i,j] != b[i,j])
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
     }
 }
