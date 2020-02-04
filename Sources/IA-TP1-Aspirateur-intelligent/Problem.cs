@@ -14,11 +14,11 @@ namespace IA_TP1_Aspirateur_intelligent
         public Problem()
         {
             actions = new Dictionary<string, Action>();
-            actions.Add("clean", new Actions.Clean());
             actions.Add("movedown", new Actions.MoveDown());
             actions.Add("moveleft", new Actions.MoveLeft());
             actions.Add("moveright", new Actions.MoveRight());
             actions.Add("moveup", new Actions.MoveUp());
+            actions.Add("clean", new Actions.Clean());
             actions.Add("nothing", new Actions.Nothing());
             actions.Add("pickup", new Actions.Pickup());
         }
@@ -59,6 +59,7 @@ namespace IA_TP1_Aspirateur_intelligent
                     testingFloor.getAspXY(),
                     currentNode.getDepth() + 1,
                     currentNode.getPathcost() + entry.Value.getCost(),
+                    false,
                     entry.Key,
                     currentNode
                     ) ;
@@ -103,6 +104,25 @@ namespace IA_TP1_Aspirateur_intelligent
 
             Floor testingFloor = new Floor(currentNode.getState());
 
+            Console.WriteLine("Retrosuccession");
+            Console.WriteLine("* -  -  -  -  -  *");
+            string line;
+
+            for (int i = 0; i < testingFloor.getState().GetLength(0); i++)
+            {
+                line = "|";
+                for (int j = 0; j < testingFloor.getState().GetLength(1); j++)
+                {
+                    line += ' ' + testingFloor.getState()[i, j].ToString() + ' ';
+                }
+
+                line += '|';
+
+                Console.WriteLine(line);
+            }
+
+            Console.WriteLine("* -  -  -  -  -  *");
+
             foreach (KeyValuePair<string, Action> entry in actions)
             {
                 entry.Value.reverse(testingFloor, currentNode.getVacXY());
@@ -111,6 +131,7 @@ namespace IA_TP1_Aspirateur_intelligent
                     testingFloor.getAspXY(),
                     currentNode.getDepth() + 1,
                     currentNode.getPathcost() + entry.Value.getCost(),
+                    false,
                     entry.Key,
                     currentNode
                     );

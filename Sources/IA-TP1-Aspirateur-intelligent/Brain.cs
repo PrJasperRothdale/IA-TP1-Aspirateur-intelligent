@@ -7,6 +7,8 @@ namespace IA_TP1_Aspirateur_intelligent
     class Brain
     {
         private Problem problem;
+        private List<Modelisation.Node> tree_fs;
+        private List<Modelisation.Node> tree_fg;
         private List<Modelisation.Node> frontiere_fs;
         private List<Modelisation.Node> frontiere_fg;
         private List<Modelisation.Node> visited_fs;
@@ -16,6 +18,8 @@ namespace IA_TP1_Aspirateur_intelligent
         public Brain()
         {
             problem = new Problem();
+            tree_fs = new List<Modelisation.Node>();
+            tree_fg = new List<Modelisation.Node>();
             frontiere_fs = new List<Modelisation.Node>();
             frontiere_fg = new List<Modelisation.Node>();
             visited_fs = new List<Modelisation.Node>();
@@ -54,56 +58,73 @@ namespace IA_TP1_Aspirateur_intelligent
                     new[] { 0, 0 },
                     0,
                     0,
+                    false,
                     "root"
                 );
             Modelisation.Node goaln = new Modelisation.Node(
-                desiredstate,
-                new[] { 0, 0 },
-                0,
-                0,
-                "goal"
+                    desiredstate,
+                    new[] { 0, 0 },
+                    0,
+                    0,
+                    false,
+                    "goal"
                 );
+            tree_fs.Clear();
+            tree_fg.Clear();
 
             frontiere_fs.Clear();
             frontiere_fg.Clear();
+
+            //frontiere_fs = new List<Modelisation.Node>();
+            //frontiere_fg = new List<Modelisation.Node>();
+
             visited_fs.Clear();
             visited_fg.Clear();
 
-            frontiere_fs.Add(rootn);
-            frontiere_fg.Add(goaln);
+            tree_fs.Add(rootn);
+            tree_fg.Add(goaln);
+            //frontiere_fs.Add(rootn);
+            //frontiere_fg.Add(goaln);
 
-            int caca = 0;
+            int borderindex = 0;
 
             while (true)
             {
-
-                //Console.WriteLine("Tour " + caca++);
-                Dictionary<string, Modelisation.Node> s_successors = problem.succession(frontiere_fs[0]);
                 
-                Dictionary<string, Modelisation.Node> g_successors = problem.retrosuccession(frontiere_fg[0]);
+                //Console.WriteLine("Tour " + caca++);
+                //Console.WriteLine("Compte : " + frontiere_fs.Count);
+                Dictionary<string, Modelisation.Node> s_successors = problem.succession(tree_fs[borderindex]);
+                
+                Dictionary<string, Modelisation.Node> g_successors = problem.retrosuccession(tree_fg[borderindex]);
 
-                visited_fs.Add(frontiere_fs[0]);
-                visited_fg.Add(frontiere_fg[0]);
+                //visited_fs.Add(frontiere_fs[0]);
+                //visited_fg.Add(frontiere_fg[0]);
 
+                //frontiere_fs.RemoveAt(0);
+                //frontiere_fg.RemoveAt(0);
 
-                frontiere_fs.RemoveAt(0);
-                frontiere_fg.RemoveAt(0);
 
 
                 foreach (KeyValuePair<string,Modelisation.Node> entry in s_successors)
                 {
-                    if (isPresent(entry.Value, visited_fs) != null)
+                    //if (isPresent(entry.Value, visited_fs) != null)
+                    /*
+                    if ( isPresent(entry.Value, tree_fs.GetRange(0, borderindex)) != null )
                     {
-                        
+                        Console.WriteLine("Entry is present");
                         break;
-                    }
-                    if (isPresent(entry.Value, visited_fg) != null)
+                    }*/
+
+                    //if (isPresent(entry.Value, visited_fg) != null)
+                    if ( isPresent(entry.Value, tree_fg.GetRange(0, borderindex)) != null )
                     {
                         Console.WriteLine("Trouve un truc en A ");
-                        Modelisation.Node[] x = isPresent(entry.Value, visited_fg);
+                        //Modelisation.Node[] x = isPresent(entry.Value, visited_fg);
+                        Modelisation.Node[] x = isPresent(entry.Value, tree_fg.GetRange(0, borderindex));
                         return generateTasklist(x[0], x[1]);
                     }
-                    frontiere_fs.Add(entry.Value);
+                    //frontiere_fs.Add(entry.Value);
+                    tree_fs.Add(entry.Value);
                     
                 }
 
@@ -111,20 +132,29 @@ namespace IA_TP1_Aspirateur_intelligent
 
                 foreach(KeyValuePair<string, Modelisation.Node> entry in g_successors)
                 {
-                    if (isPresent(entry.Value, visited_fg) != null)
+                    //if (isPresent(entry.Value, visited_fg) != null)
+                    /*
+                    if (isPresent(entry.Value, tree_fg.GetRange(0, borderindex)) != null)
                     {
                         break;
-                    }
-                    if (isPresent(entry.Value, visited_fs) != null)
+                    } */
+                    //if (isPresent(entry.Value, visited_fs) != null)
+                    if (isPresent(entry.Value, tree_fs.GetRange(0, borderindex)) != null)
                     {
                         Console.WriteLine("Trouve un truc en B ");
-                        Modelisation.Node[] x = isPresent(entry.Value, visited_fs);
+                        //Modelisation.Node[] x = isPresent(entry.Value, visited_fs);
+                        Modelisation.Node[] x = isPresent(entry.Value, tree_fs.GetRange(0, borderindex));
                         return generateTasklist(x[1], x[0]);
                     }
-                    frontiere_fg.Add(entry.Value);
+                    //frontiere_fg.Add(entry.Value);
+                    tree_fg.Add(entry.Value);
                 }
 
+                //frontiere_fs.RemoveAt(0);
+                //frontiere_fg.RemoveAt(0);
+
                 //Console.ReadLine();
+                borderindex++;
             }
 
         }
@@ -135,6 +165,7 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 //Console.WriteLine("Checked for presence");
                 if ( isArrayEqual(node.getState(), n.getState()) )
+                //if (node == n)
                 {
                     Console.WriteLine("TROUVE UNE SOLUTION");
                     return new[] { node, n };

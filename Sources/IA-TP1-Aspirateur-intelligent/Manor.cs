@@ -7,7 +7,7 @@ namespace IA_TP1_Aspirateur_intelligent
 {
     public sealed class Manor
     {
-        private static int GRID_SIZE = 2;
+        private static int GRID_SIZE = 5;
 
         private static Manor instance;
         private Floor floor;
@@ -25,6 +25,7 @@ namespace IA_TP1_Aspirateur_intelligent
             schmutzfabrik = new Schmutzfabrik(probmatrixGenerator());
             juwelfabrik = new Juwelfabrik(probmatrixGenerator());
             aspirateur = new Aspirateur();
+            aspXY = floor.getAspXY();
         }
 
         public static Manor getInstance()
@@ -99,6 +100,7 @@ namespace IA_TP1_Aspirateur_intelligent
                 vacThread.Join();
                 printFloorState();
                 Console.WriteLine("THREAD : " + vacThread.ThreadState);
+                Console.ReadLine();
                 Thread.Sleep(2000);
                 
             }
@@ -141,6 +143,8 @@ namespace IA_TP1_Aspirateur_intelligent
 
         public int[] getAspXY()
         {
+            return floor.getAspXY();
+            /*
             if (((floor.getState()[aspXY[0],aspXY[1]] % 4) % 2) == 1)
             {
                 return aspXY;
@@ -161,6 +165,7 @@ namespace IA_TP1_Aspirateur_intelligent
                     }
                 }
             }
+            */
 
             throw new Exception("Did not find the vaccum");
 
