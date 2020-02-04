@@ -26,29 +26,6 @@ namespace IA_TP1_Aspirateur_intelligent
         public void wake()
         {
             state = sensor.getSurroundings();
-
-            string line;
-
-            /*
-            Console.WriteLine("In aspirateur");
-            Console.WriteLine("* -  -  -  -  -  *");
-
-            for (int i = 0; i < state.GetLength(0); i++)
-            {
-                line = "|";
-                for (int j = 0; j < state.GetLength(1); j++)
-                {
-                    line += ' ' + state[i, j].ToString() + ' ';
-                }
-
-                line += '|';
-
-                Console.WriteLine(line);
-            }
-
-            Console.WriteLine("* -  -  -  -  -  *");
-            */
-
             tasklist = brain.search(state, desire);
             actors.execute(tasklist.Dequeue());
         }

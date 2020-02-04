@@ -29,6 +29,7 @@ namespace IA_TP1_Aspirateur_intelligent
 
             Floor testingFloor = new Floor(currentNode.getState());
 
+            /*
             Console.WriteLine("Succession");
             Console.WriteLine("* -  -  -  -  -  *");
             string line;
@@ -47,6 +48,7 @@ namespace IA_TP1_Aspirateur_intelligent
             }
 
             Console.WriteLine("* -  -  -  -  -  *");
+            */
 
             foreach (KeyValuePair<string, Action> entry in actions)
             {
@@ -61,10 +63,7 @@ namespace IA_TP1_Aspirateur_intelligent
                     currentNode
                     ) ;
 
-                newStates.Add(entry.Key, newnode);
-                testingFloor.reset();
-                //testingFloor = new Floor(currentNode.getState());
-                //entry.Value.reverse(testingFloor, testingFloor.getAspXY());
+                /*
 
                 Console.WriteLine("Apres : " + entry.Key);
                 Console.WriteLine("* -  -  -  -  -  *");
@@ -84,6 +83,14 @@ namespace IA_TP1_Aspirateur_intelligent
                 }
 
                 Console.WriteLine("* -  -  -  -  -  *");
+                */
+
+                newStates.Add(entry.Key, newnode);
+                testingFloor.reset();
+                //testingFloor = new Floor(currentNode.getState());
+                //entry.Value.reverse(testingFloor, testingFloor.getAspXY());
+
+
             }
             
 

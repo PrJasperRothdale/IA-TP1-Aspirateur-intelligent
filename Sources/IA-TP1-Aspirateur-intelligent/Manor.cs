@@ -96,7 +96,7 @@ namespace IA_TP1_Aspirateur_intelligent
 
             while (true)
             {
-                vacThread.Join();
+                //vacThread.Join();
                 printFloorState();
                 Console.WriteLine("THREAD : " + vacThread.ThreadState);
                 Thread.Sleep(2000);

@@ -26,8 +26,8 @@ namespace IA_TP1_Aspirateur_intelligent.Modelisation
         }
         public Node(int[,] s, int[] aspXY, int d, int pc, string la)
         {
-            state = s;
-            vacXY = aspXY;
+            state = (int[,]) s.Clone();
+            vacXY = (int[]) aspXY.Clone();
             depth = d;
             pathcost = pc;
             lastaction = la;
@@ -37,7 +37,7 @@ namespace IA_TP1_Aspirateur_intelligent.Modelisation
 
         public int[,] getState()
         {
-            return state;
+            return (int[,])state.Clone();
         }
 
         public int getDepth()
@@ -52,7 +52,7 @@ namespace IA_TP1_Aspirateur_intelligent.Modelisation
 
         public int[] getVacXY()
         {
-            return vacXY;
+            return (int[])vacXY.Clone();
         }
 
         public Node getParent()

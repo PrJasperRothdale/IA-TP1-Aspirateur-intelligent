@@ -23,13 +23,13 @@ namespace IA_TP1_Aspirateur_intelligent
 
             }
             state[0, 0] = 1;
-            initialState = state;
+            initialState = (int[,])state.Clone();
         }
 
         public Floor(int[,] s)
         {
-            state = s;
-            initialState = s;
+            state = (int[,])s.Clone();
+            initialState = (int[,])s.Clone();
         }
 
         public int[,] getState()
@@ -121,7 +121,7 @@ namespace IA_TP1_Aspirateur_intelligent
 
         public void vaccumin(int[] coo)
         {
-            Console.WriteLine("Moved in of :" + coo[0] + ", " + coo[1]);
+            //Console.WriteLine("Moved in of :" + coo[0] + ", " + coo[1]);
             int pstate = state[coo[0], coo[1]];
 
             if (pstate % 4 == pstate)
@@ -166,7 +166,7 @@ namespace IA_TP1_Aspirateur_intelligent
         
         public void vaccumout(int[] coo)
         {
-            Console.WriteLine("Moved out of :" + coo[0] + ", " + coo[1]);
+            //Console.WriteLine("Moved out of :" + coo[0] + ", " + coo[1]);
             int pstate = state[coo[0], coo[1]];
 
             if (pstate % 4 == pstate)
@@ -204,7 +204,7 @@ namespace IA_TP1_Aspirateur_intelligent
 
         public void reset()
         {
-            this.state = this.initialState;
+            this.state = (int[,])initialState.Clone();
         }
 
     }

@@ -101,7 +101,7 @@ namespace IA_TP1_Aspirateur_intelligent
                     
                 }
 
-                Console.ReadLine();
+                //Console.ReadLine();
 
                 foreach(KeyValuePair<string, Modelisation.Node> entry in g_successors)
                 {

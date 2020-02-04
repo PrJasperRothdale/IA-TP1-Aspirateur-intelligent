@@ -14,7 +14,7 @@ namespace IA_TP1_Aspirateur_intelligent
 
         public int[,] getSurroundings()
         {
-            return Manor.getInstance().getFloorState();
+            return (int[,]) Manor.getInstance().getFloorState().Clone();
         }
     }
 }
