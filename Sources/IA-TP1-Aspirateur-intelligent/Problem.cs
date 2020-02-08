@@ -14,12 +14,13 @@ namespace IA_TP1_Aspirateur_intelligent
         public Problem()
         {
             actions = new Dictionary<string, Action>();
+
+            actions.Add("nothing", new Actions.Nothing());
             actions.Add("movedown", new Actions.MoveDown());
             actions.Add("moveleft", new Actions.MoveLeft());
             actions.Add("moveright", new Actions.MoveRight());
             actions.Add("moveup", new Actions.MoveUp());
             actions.Add("clean", new Actions.Clean());
-            actions.Add("nothing", new Actions.Nothing());
             actions.Add("pickup", new Actions.Pickup());
         }
 
@@ -33,12 +34,22 @@ namespace IA_TP1_Aspirateur_intelligent
             Console.WriteLine("Succession");
             Console.WriteLine("* -  -  -  -  -  *");
             string line;
+            int DBG_cp = 0;
+            bool stop = false;
 
             for (int i = 0; i < testingFloor.getState().GetLength(0); i++)
             {
                 line = "|";
                 for (int j = 0; j < testingFloor.getState().GetLength(1); j++)
                 {
+                    if (testingFloor.getState()[i, j] % 4 % 2 == 1)
+                    {
+                        DBG_cp++;
+                        if(DBG_cp > 1)
+                        {
+                            stop = true;
+                        }
+                    }
                     line += ' ' + testingFloor.getState()[i, j].ToString() + ' ';
                 }
 
@@ -48,13 +59,18 @@ namespace IA_TP1_Aspirateur_intelligent
             }
 
             Console.WriteLine("* -  -  -  -  -  *");
+
+            if (stop)
+            {
+                Console.ReadLine();
+            }
             */
             
 
             foreach (KeyValuePair<string, Action> entry in actions)
             {
                 
-                entry.Value.enact(testingFloor, currentNode.getVacXY());
+                entry.Value.enact(testingFloor, testingFloor.getAspXY());
                 Modelisation.Node newnode = new Modelisation.Node(
                     testingFloor.getState(),
                     testingFloor.getAspXY(),
@@ -128,7 +144,7 @@ namespace IA_TP1_Aspirateur_intelligent
 
             foreach (KeyValuePair<string, Action> entry in actions)
             {
-                entry.Value.reverse(testingFloor, currentNode.getVacXY());
+                entry.Value.reverse(testingFloor, testingFloor.getAspXY());
                 Modelisation.Node newnode = new Modelisation.Node(
                     testingFloor.getState(),
                     testingFloor.getAspXY(),
@@ -149,9 +165,17 @@ namespace IA_TP1_Aspirateur_intelligent
             return newStates;
         }
 
-        public bool goalTest(int[,] tested)
+
+        public Modelisation.Node[] isPresent(Modelisation.Node node, List<Modelisation.Node> visited)
         {
-            return (tested == desire);
+            foreach (Modelisation.Node n in visited)
+            {
+                if (node.getSignature() == n.getSignature())
+                {
+                    return new[] { node, n };
+                }
+            }
+            return null;
         }
     }
 }

@@ -15,8 +15,9 @@ namespace IA_TP1_Aspirateur_intelligent.Actions
 
         public void enact(Floor floor, int[] vacXY)
         {
+
             floor.vaccumout((int[])vacXY.Clone());
-            int[] ncoo = vacXY;
+            int[] ncoo = (int[])vacXY.Clone();
             if (!(vacXY[0] == floor.getState().GetLength(0)-1)) 
             { 
                 ncoo[0] += 1; 
@@ -28,7 +29,7 @@ namespace IA_TP1_Aspirateur_intelligent.Actions
         public void reverse(Floor floor, int[] vacXY)
         {
             floor.vaccumout((int[])vacXY.Clone());
-            int[] ncoo = vacXY;
+            int[] ncoo = (int[])vacXY.Clone();
             if (!(vacXY[0] == 0))
             {
                 ncoo[0] -= 1;

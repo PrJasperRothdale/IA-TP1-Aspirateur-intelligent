@@ -9,10 +9,13 @@ namespace IA_TP1_Aspirateur_intelligent
         private int[,] state;
         private int[,] initialState;
 
+        private int[] aspXY;
+
         public Floor(int size)
         {
             state = new int[size, size];
             initialState = new int[size, size];
+            aspXY = new int[2];
 
             for (int i = 0; i < size; i++)
             {
@@ -23,6 +26,7 @@ namespace IA_TP1_Aspirateur_intelligent
 
             }
             state[0, 0] = 1;
+            aspXY = new[] { 0, 0 };
             initialState = (int[,])state.Clone();
         }
 
@@ -30,6 +34,7 @@ namespace IA_TP1_Aspirateur_intelligent
         {
             state = (int[,])s.Clone();
             initialState = (int[,])s.Clone();
+            aspXY = new[] { 0, 0 };
         }
 
         public int[,] getState()
@@ -44,18 +49,22 @@ namespace IA_TP1_Aspirateur_intelligent
 
         public int[] getAspXY()
         {
-
-
-            for (int i = 0; i < state.GetLength(0); i++)
+            if (((state[aspXY[0], aspXY[1]] % 4) % 2) == 1)
             {
-                for (int j = 0; j < state.GetLength(1); j++)
+                return (int[])aspXY.Clone();
+            }
+            else
+            {
+                for (int i = 0; i < state.GetLength(0); i++)
                 {
-                    if (((state[i, j] % 4) % 2) == 1)
+                    for (int j = 0; j < state.GetLength(1); j++)
                     {
-                        int[] aspXY = new int[2];
-                        aspXY[0] = i;
-                        aspXY[1] = j;
-                        return aspXY;
+                        if (((state[i, j] % 4) % 2) == 1)
+                        {
+                            aspXY[0] = i;
+                            aspXY[1] = j;
+                            return (int[])aspXY.Clone();
+                        }
                     }
                 }
             }

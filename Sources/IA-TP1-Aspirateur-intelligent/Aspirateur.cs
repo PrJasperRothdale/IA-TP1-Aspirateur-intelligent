@@ -26,25 +26,20 @@ namespace IA_TP1_Aspirateur_intelligent
 
         public void wake()
         {
+            
             state = sensor.getSurroundings();
-            tasklist = brain.search(state, desire);
-            //tasklist.Enqueue( brain.search(state, desire).Dequeue());
+            tasklist = brain.search(state, (int[,])desire.Clone());
 
-            /*
-            string[] tasks = tasklist.ToArray();
-            for(int i = 0; i < tasks.Length; i++)
-            {
-                Console.WriteLine("TASK " + i + " : " + tasks[i]);
-            }
-            */
-            // actions at a time to avoid do nothing loop
+            //2 actions at a time to avoid do nothing loop
             actors.execute(tasklist.Dequeue());
             actors.execute(tasklist.Dequeue());
+            
+
         }
 
         private int[,] calculateDesire()
         {
-            int gridsize = 3;
+            int gridsize = 5;
             desire = new int[gridsize, gridsize];
 
             for (int i = 0; i < gridsize; i++)
@@ -55,9 +50,30 @@ namespace IA_TP1_Aspirateur_intelligent
                 }
 
             }
-            desire[0, 0] = 1;
+            desire[2, 2] = 1;
             return desire;
             
+        }
+
+        private bool isArrayEqual(int[,] a, int[,] b)
+        {
+            if ((a.GetLength(0) != b.GetLength(0)) || (a.GetLength(1) != b.GetLength(1)))
+            {
+                return false;
+            }
+
+            for (int i = 0; i < a.GetLength(0); i++)
+            {
+                for (int j = 0; j < a.GetLength(1); j++)
+                {
+                    if (a[i, j] != b[i, j])
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
         }
 
     }

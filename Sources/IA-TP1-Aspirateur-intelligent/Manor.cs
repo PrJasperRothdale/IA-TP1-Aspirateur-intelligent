@@ -7,14 +7,18 @@ namespace IA_TP1_Aspirateur_intelligent
 {
     public sealed class Manor
     {
-        private static int GRID_SIZE = 3;
+        private static int GRID_SIZE = 5;
 
         private static Manor instance;
         private Floor floor;
         private static Aspirateur aspirateur;
         private static Schmutzfabrik schmutzfabrik;
         private static Juwelfabrik juwelfabrik;
-        
+
+        private Thread schmutzThread;
+        private Thread juwelThread;
+        private Thread vacThread;
+
         private int[] aspXY;
 
         private Random random = new Random();
@@ -61,7 +65,7 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 schmutzfabrik.dirty(floor);
 
-                Thread.Sleep(10000);
+                Thread.Sleep(8000);
             }
         }
 
@@ -71,7 +75,7 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 juwelfabrik.drop(floor);
 
-                Thread.Sleep(10000);
+                Thread.Sleep(8000);
             }
         }
 
@@ -87,9 +91,9 @@ namespace IA_TP1_Aspirateur_intelligent
 
         public void setAlive()
         {
-            Thread schmutzThread = new Thread(new ThreadStart(schmutzfabrikThread));
-            Thread juwelThread = new Thread(new ThreadStart(juwelfabrikThread));
-            Thread vacThread = new Thread(new ThreadStart(vaccumThread));
+            schmutzThread = new Thread(new ThreadStart(schmutzfabrikThread));
+            juwelThread = new Thread(new ThreadStart(juwelfabrikThread));
+            vacThread = new Thread(new ThreadStart(vaccumThread));
 
             schmutzThread.Start();
             juwelThread.Start();
@@ -101,6 +105,7 @@ namespace IA_TP1_Aspirateur_intelligent
                 printFloorState();
                 //Console.WriteLine("THREAD : " + vacThread.ThreadState);
                 //Console.ReadLine();
+                //vacThread.Join();
                 Thread.Sleep(2000);
                 
             }
@@ -171,15 +176,6 @@ namespace IA_TP1_Aspirateur_intelligent
 
         }
 
-        public int[,] DEBUG_getDesire()
-        {
-            return floor.getInitialState();
-        }
-
-        public int getGridSize()
-        {
-            return 3;
-        }
 
         public bool isArrayEqual(int[,] a, int[,] b)
         {
