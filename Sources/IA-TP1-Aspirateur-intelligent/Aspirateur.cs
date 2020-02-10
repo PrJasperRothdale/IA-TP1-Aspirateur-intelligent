@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace IA_TP1_Aspirateur_intelligent
 {
@@ -12,6 +13,7 @@ namespace IA_TP1_Aspirateur_intelligent
         private Queue<string> tasklist;
         private int[,] state;
         private int[,] desire;
+        private int[,] pstate;
 
         public Aspirateur()
         {
@@ -21,6 +23,7 @@ namespace IA_TP1_Aspirateur_intelligent
             brain  = new Brain();
             tasklist = new Queue<string>();
             desire = calculateDesire();
+            pstate = null;
 
         }
 
@@ -28,10 +31,15 @@ namespace IA_TP1_Aspirateur_intelligent
         {
             
             state = sensor.getSurroundings();
-            tasklist = brain.search(state, (int[,])desire.Clone());
+            if (pstate == null || pstate != state)
+            {
+                tasklist = brain.search(state, (int[,])desire.Clone());
+            }
+            pstate = (int[,])state.Clone();
 
             //2 actions at a time to avoid do nothing loop
             actors.execute(tasklist.Dequeue());
+            Thread.Sleep(500);
             actors.execute(tasklist.Dequeue());
             
 
@@ -53,6 +61,11 @@ namespace IA_TP1_Aspirateur_intelligent
             desire[2, 2] = 1;
             return desire;
             
+        }
+
+        public int[,] getDesire()
+        {
+            return (int[,])desire.Clone();
         }
 
         private bool isArrayEqual(int[,] a, int[,] b)

@@ -11,6 +11,8 @@ namespace IA_TP1_Aspirateur_intelligent
 
         private int[] aspXY;
 
+        private Accountant accountant;
+
         public Floor(int size)
         {
             state = new int[size, size];
@@ -25,16 +27,18 @@ namespace IA_TP1_Aspirateur_intelligent
                 }
 
             }
-            state[0, 0] = 1;
-            aspXY = new[] { 0, 0 };
+            state[2, 2] = 1;
+            aspXY = new[] { 2, 2 };
             initialState = (int[,])state.Clone();
+            accountant = new Accountant();
         }
 
-        public Floor(int[,] s)
+        public Floor(int[,] s, int account)
         {
             state = (int[,])s.Clone();
             initialState = (int[,])s.Clone();
             aspXY = new[] { 0, 0 };
+            accountant = new Accountant(account);
         }
 
         public int[,] getState()
@@ -76,8 +80,10 @@ namespace IA_TP1_Aspirateur_intelligent
 
         public void dirt(int[] coo)
         {
+            
             if ( (state[coo[0], coo[1]] % 4) == state[coo[0], coo[1]] )
             {
+                accountant.decreaseTick(5);
                 state[coo[0], coo[1]] += 4;
             }
             
@@ -85,17 +91,33 @@ namespace IA_TP1_Aspirateur_intelligent
 
         public void clean(int[] coo)
         {
+            accountant.pay(20);
+            accountant.increaseTick(5);
+
+            if (state[coo[0],coo[1]] != state[coo[0],coo[1]] % 4)
+            {
+                //accountant.increaseTick(5);
+                if (state[coo[0], coo[1]] % 4 != state[coo[0], coo[1]] % 4 % 2)
+                {
+                    accountant.pay(10000);
+                }
+            }
             state[coo[0], coo[1]] %= 4;
+            state[coo[0], coo[1]] %= 2;
+            
         }
 
         public void jewels(int[] coo)
         {
             int pstate = state[coo[0], coo[1]];
 
+            accountant.decreaseTick(5);
+
             if ( pstate % 4 == pstate)
             {
                 if (pstate % 2 == pstate )
                 {
+                    //accountant.decreaseTick(5);
                     state[coo[0], coo[1]] += 2;
                 }
             }
@@ -104,6 +126,7 @@ namespace IA_TP1_Aspirateur_intelligent
                 pstate %= 4;
                 if (pstate % 2 == pstate)
                 {
+                    //accountant.decreaseTick(5);
                     state[coo[0], coo[1]] += 2;
                 }
             }
@@ -113,6 +136,9 @@ namespace IA_TP1_Aspirateur_intelligent
         public void pickup(int[] coo)
         {
             int pstate = state[coo[0], coo[1]];
+            accountant.pay(20);
+
+            accountant.increaseTick(5);
             
             if ( pstate % 4 == pstate )
             {
@@ -126,12 +152,15 @@ namespace IA_TP1_Aspirateur_intelligent
                 state[coo[0], coo[1]] = pstate;
             }
 
+
+
+
         }
 
         public void vaccumin(int[] coo)
         {
-            //Console.WriteLine("Moved in of :" + coo[0] + ", " + coo[1]);
             int pstate = state[coo[0], coo[1]];
+            accountant.pay(5);
 
             if (pstate % 4 == pstate)
             {
@@ -214,6 +243,17 @@ namespace IA_TP1_Aspirateur_intelligent
         public void reset()
         {
             this.state = (int[,])initialState.Clone();
+        }
+
+        public int tick()
+        {
+            accountant.tick();
+            return accountant.getCount();
+        }
+
+        public int account()
+        {
+            return accountant.getCount();
         }
 
     }

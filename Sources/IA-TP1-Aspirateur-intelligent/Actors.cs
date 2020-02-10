@@ -23,7 +23,7 @@ namespace IA_TP1_Aspirateur_intelligent
         public void execute(string action)
         {
             Console.WriteLine("Actors are doing : " + action);
-            actions[action].enact(Manor.getInstance().getFloor(), (int[]) Manor.getInstance().getAspXY().Clone());
+            actions[action].enact(Manor.getInstance().getFloor(), (int[]) Manor.getInstance().getFloor().getAspXY().Clone());
         }
 
     }

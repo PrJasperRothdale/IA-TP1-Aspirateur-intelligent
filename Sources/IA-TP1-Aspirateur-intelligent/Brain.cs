@@ -30,7 +30,6 @@ namespace IA_TP1_Aspirateur_intelligent
 
         private Queue<string> generateTasklist(Modelisation.Node ns, Modelisation.Node ng)
         {
-            //Modelisation.Node intersection = search(state);
             List<string> actions = new List<string>();
 
             while(ns.getLastAction() != "root" )
@@ -48,7 +47,6 @@ namespace IA_TP1_Aspirateur_intelligent
 
             Queue<string> queue = new Queue<string>(actions);
 
-            //Console.WriteLine("Tasklist returning ...");
             return queue;
         }
 

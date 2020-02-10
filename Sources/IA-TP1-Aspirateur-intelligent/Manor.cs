@@ -19,8 +19,6 @@ namespace IA_TP1_Aspirateur_intelligent
         private Thread juwelThread;
         private Thread vacThread;
 
-        private int[] aspXY;
-
         private Random random = new Random();
 
         private Manor()
@@ -29,7 +27,6 @@ namespace IA_TP1_Aspirateur_intelligent
             schmutzfabrik = new Schmutzfabrik(probmatrixGenerator());
             juwelfabrik = new Juwelfabrik(probmatrixGenerator());
             aspirateur = new Aspirateur();
-            aspXY = floor.getAspXY();
         }
 
         public static Manor getInstance()
@@ -65,7 +62,7 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 schmutzfabrik.dirty(floor);
 
-                Thread.Sleep(8000);
+                Thread.Sleep(5000);
             }
         }
 
@@ -75,7 +72,7 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 juwelfabrik.drop(floor);
 
-                Thread.Sleep(8000);
+                Thread.Sleep(5000);
             }
         }
 
@@ -96,23 +93,37 @@ namespace IA_TP1_Aspirateur_intelligent
             vacThread = new Thread(new ThreadStart(vaccumThread));
 
             schmutzThread.Start();
+            Thread.Sleep(2500);
             juwelThread.Start();
             vacThread.Start();
 
             while (true)
             {
-                //vacThread.Join();
+                Console.Clear();
+                Console.WriteLine("Performance : " + floor.tick());
                 printFloorState();
-                //Console.WriteLine("THREAD : " + vacThread.ThreadState);
-                //Console.ReadLine();
-                //vacThread.Join();
-                Thread.Sleep(2000);
+                Thread.Sleep(500);
                 
             }
         }
 
         private void printFloorState()
         {
+
+            /*
+               dirt | jewels | vaccum === > d|j|v
+
+                djv
+                --- = 0
+                --v = 1
+                -j- = 2
+                -jv = 3
+                d-- = 4
+                d-v = 5
+                dj- = 6 
+                djv = 7
+
+             */
             int[,] state = floor.getState();
 
             string line;
@@ -146,36 +157,10 @@ namespace IA_TP1_Aspirateur_intelligent
             return floor;
         }
 
-        public int[] getAspXY()
+        public int[,] getAspDesire()
         {
-            return (int[])floor.getAspXY().Clone();
-            /*
-            if (((floor.getState()[aspXY[0],aspXY[1]] % 4) % 2) == 1)
-            {
-                return aspXY;
-            }
-
-            else
-            {
-                for (int i = 0; i < floor.getState().GetLength(0); i++)
-                {
-                    for (int j = 0; j < floor.getState().GetLength(1); j++)
-                    {
-                        if (((floor.getState()[i,j] % 4) % 2) == 1)
-                        {
-                            aspXY[0] = i;
-                            aspXY[1] = j;
-                            return aspXY;
-                        }
-                    }
-                }
-            }
-            */
-
-            throw new Exception("Did not find the vaccum");
-
+            return aspirateur.getDesire();
         }
-
 
         public bool isArrayEqual(int[,] a, int[,] b)
         {

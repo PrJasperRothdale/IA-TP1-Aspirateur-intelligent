@@ -6,107 +6,72 @@ namespace IA_TP1_Aspirateur_intelligent
 {
     class Problem
     {
-        private int[,] desire;
-
-        private int[,] state;
         private Dictionary<string, Action> actions;
+        private int[,] desire;
         
         public Problem()
         {
             actions = new Dictionary<string, Action>();
 
+            //In cost order for shortest path
             actions.Add("nothing", new Actions.Nothing());
             actions.Add("movedown", new Actions.MoveDown());
             actions.Add("moveleft", new Actions.MoveLeft());
             actions.Add("moveright", new Actions.MoveRight());
             actions.Add("moveup", new Actions.MoveUp());
-            actions.Add("clean", new Actions.Clean());
             actions.Add("pickup", new Actions.Pickup());
+            actions.Add("clean", new Actions.Clean());
+
+            //desire = (int[,]) Manor.getInstance().getAspDesire().Clone();
+            desire = new int[4, 4];
+            desire[2, 2] = 1;
         }
 
         public Dictionary<string, Modelisation.Node> succession(Modelisation.Node currentNode)
         {
             Dictionary<string, Modelisation.Node> newStates = new Dictionary<string, Modelisation.Node>();
 
-            Floor testingFloor = new Floor(currentNode.getState());
+            Floor testingFloor = new Floor(currentNode.getState(), currentNode.getPathcost());
 
-            /*
-            Console.WriteLine("Succession");
-            Console.WriteLine("* -  -  -  -  -  *");
-            string line;
-            int DBG_cp = 0;
-            bool stop = false;
-
-            for (int i = 0; i < testingFloor.getState().GetLength(0); i++)
+            if (currentNode.getLastAction() == "nothing")
             {
-                line = "|";
-                for (int j = 0; j < testingFloor.getState().GetLength(1); j++)
-                {
-                    if (testingFloor.getState()[i, j] % 4 % 2 == 1)
-                    {
-                        DBG_cp++;
-                        if(DBG_cp > 1)
-                        {
-                            stop = true;
-                        }
-                    }
-                    line += ' ' + testingFloor.getState()[i, j].ToString() + ' ';
-                }
-
-                line += '|';
-
-                Console.WriteLine(line);
+                Modelisation.Node newnode = new Modelisation.Node(
+                    testingFloor.getState(),
+                    testingFloor.getAspXY(),
+                    currentNode.getDepth() + 1,
+                    //currentNode.getPathcost() + entry.Value.getCost(),
+                    testingFloor.account(),
+                    false,
+                    "nothing",
+                    currentNode
+                    );
+                newStates.Add("nothing", newnode);
+                return newStates;
             }
 
-            Console.WriteLine("* -  -  -  -  -  *");
-
-            if (stop)
-            {
-                Console.ReadLine();
-            }
-            */
-            
 
             foreach (KeyValuePair<string, Action> entry in actions)
             {
                 
                 entry.Value.enact(testingFloor, testingFloor.getAspXY());
+                if (isArrayEqual(testingFloor.getState(), currentNode.getState()) && entry.Key != "nothing" )
+                {
+                    testingFloor.reset();
+                    continue;
+                }
                 Modelisation.Node newnode = new Modelisation.Node(
                     testingFloor.getState(),
                     testingFloor.getAspXY(),
                     currentNode.getDepth() + 1,
-                    currentNode.getPathcost() + entry.Value.getCost(),
+                    //currentNode.getPathcost() + entry.Value.getCost(),
+                    testingFloor.account(),
                     false,
                     entry.Key,
                     currentNode
                     ) ;
 
-                
-                /*
-                Console.WriteLine("Apres : " + entry.Key);
-                Console.WriteLine("* -  -  -  -  -  *");
-
-                line = "";
-                for (int i = 0; i < testingFloor.getState().GetLength(0); i++)
-                {
-                    line = "|";
-                    for (int j = 0; j < testingFloor.getState().GetLength(1); j++)
-                    {
-                        line += ' ' + testingFloor.getState()[i, j].ToString() + ' ';
-                    }
-
-                    line += '|';
-
-                    Console.WriteLine(line);
-                }
-
-                Console.WriteLine("* -  -  -  -  -  *");
-                */
-
                 newStates.Add(entry.Key, newnode);
                 testingFloor.reset();
-                //testingFloor = new Floor(currentNode.getState());
-                //entry.Value.reverse(testingFloor, testingFloor.getAspXY());
 
 
             }
@@ -119,37 +84,39 @@ namespace IA_TP1_Aspirateur_intelligent
         {
             Dictionary<string, Modelisation.Node> newStates = new Dictionary<string, Modelisation.Node>();
 
-            Floor testingFloor = new Floor(currentNode.getState());
+            Floor testingFloor = new Floor(currentNode.getState(), currentNode.getPathcost());
 
-            /*
-            Console.WriteLine("Retrosuccession");
-            Console.WriteLine("* -  -  -  -  -  *");
-            string line;
-
-            for (int i = 0; i < testingFloor.getState().GetLength(0); i++)
+            if (currentNode.getLastAction() == "nothing")
             {
-                line = "|";
-                for (int j = 0; j < testingFloor.getState().GetLength(1); j++)
-                {
-                    line += ' ' + testingFloor.getState()[i, j].ToString() + ' ';
-                }
-
-                line += '|';
-
-                Console.WriteLine(line);
-            }
-
-            Console.WriteLine("* -  -  -  -  -  *");
-            */
-
-            foreach (KeyValuePair<string, Action> entry in actions)
-            {
-                entry.Value.reverse(testingFloor, testingFloor.getAspXY());
                 Modelisation.Node newnode = new Modelisation.Node(
                     testingFloor.getState(),
                     testingFloor.getAspXY(),
                     currentNode.getDepth() + 1,
-                    currentNode.getPathcost() + entry.Value.getCost(),
+                    //currentNode.getPathcost() + entry.Value.getCost(),
+                    testingFloor.account(),
+                    false,
+                    "nothing",
+                    currentNode
+                    );
+                newStates.Add("nothing", newnode);
+                return newStates;
+            }
+
+
+            foreach (KeyValuePair<string, Action> entry in actions)
+            {
+                entry.Value.reverse(testingFloor, testingFloor.getAspXY());
+                if (isArrayEqual(testingFloor.getState(), currentNode.getState()) && entry.Key != "nothing")
+                {
+                    testingFloor.reset();
+                    continue;
+                }
+                Modelisation.Node newnode = new Modelisation.Node(
+                    testingFloor.getState(),
+                    testingFloor.getAspXY(),
+                    currentNode.getDepth() + 1,
+                    //currentNode.getPathcost() + entry.Value.getCost(),
+                    testingFloor.account(),
                     false,
                     entry.Key,
                     currentNode
@@ -157,8 +124,6 @@ namespace IA_TP1_Aspirateur_intelligent
 
                 newStates.Add(entry.Key, newnode);
                 testingFloor.reset();
-                //testingFloor = new Floor(currentNode.getState());
-                //entry.Value.enact(testingFloor, testingFloor.getAspXY());
             }
 
 
@@ -177,5 +142,28 @@ namespace IA_TP1_Aspirateur_intelligent
             }
             return null;
         }
+
+        private bool isArrayEqual(int[,] a, int[,] b)
+        {
+            if ((a.GetLength(0) != b.GetLength(0)) || (a.GetLength(1) != b.GetLength(1)))
+            {
+                return false;
+            }
+
+            for (int i = 0; i < a.GetLength(0); i++)
+            {
+                for (int j = 0; j < a.GetLength(1); j++)
+                {
+                    if (a[i, j] != b[i, j])
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+
     }
 }
