@@ -9,10 +9,7 @@ namespace IA_TP1_Aspirateur_intelligent
         private Problem problem;
         private List<Modelisation.Node> tree_fs;
         private List<Modelisation.Node> tree_fg;
-        private List<Modelisation.Node> frontiere_fs;
-        private List<Modelisation.Node> frontiere_fg;
-        private List<Modelisation.Node> visited_fs;
-        private List<Modelisation.Node> visited_fg;
+
 
 
         public Brain()
@@ -20,10 +17,6 @@ namespace IA_TP1_Aspirateur_intelligent
             problem = new Problem();
             tree_fs = new List<Modelisation.Node>();
             tree_fg = new List<Modelisation.Node>();
-            frontiere_fs = new List<Modelisation.Node>();
-            frontiere_fg = new List<Modelisation.Node>();
-            visited_fs = new List<Modelisation.Node>();
-            visited_fg = new List<Modelisation.Node>();
 
         }
 

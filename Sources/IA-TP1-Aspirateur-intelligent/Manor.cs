@@ -62,7 +62,7 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 schmutzfabrik.dirty(floor);
 
-                Thread.Sleep(5000);
+                Thread.Sleep(4000);
             }
         }
 
@@ -72,7 +72,7 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 juwelfabrik.drop(floor);
 
-                Thread.Sleep(5000);
+                Thread.Sleep(4000);
             }
         }
 
@@ -82,7 +82,7 @@ namespace IA_TP1_Aspirateur_intelligent
             {
                 aspirateur.wake();
 
-                Thread.Sleep(1000);
+                ///Thread.Sleep(1000);
             }
         }
 
@@ -93,7 +93,7 @@ namespace IA_TP1_Aspirateur_intelligent
             vacThread = new Thread(new ThreadStart(vaccumThread));
 
             schmutzThread.Start();
-            Thread.Sleep(2500);
+            Thread.Sleep(2000);
             juwelThread.Start();
             vacThread.Start();
 
@@ -128,7 +128,7 @@ namespace IA_TP1_Aspirateur_intelligent
 
             string line;
 
-            Console.WriteLine("* -  -  -  -  -  *");
+            Console.WriteLine("* -  -  -  -  - *");
 
             for (int i = 0; i < state.GetLength(0); i++)
             {
@@ -143,7 +143,7 @@ namespace IA_TP1_Aspirateur_intelligent
                 Console.WriteLine(line);
             }
 
-            Console.WriteLine("* -  -  -  -  -  *");
+            Console.WriteLine("* -  -  -  -  - *");
         }
 
         public int[,] getFloorState()
