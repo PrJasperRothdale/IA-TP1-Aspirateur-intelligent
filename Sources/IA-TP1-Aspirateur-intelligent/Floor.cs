@@ -256,5 +256,29 @@ namespace IA_TP1_Aspirateur_intelligent
             return accountant.getCount();
         }
 
+
+        // Return a list of coordinates and value of dirt/jewel object on the floor
+        public List<(int, int, int)> getJewelDirt()
+        {
+            List<(int, int, int)> cooList = new List<(int, int, int)>();
+            int gridsize = 5;
+
+            for (int i = 0; i < gridsize; i++)
+            {
+                for (int j = 0; j < gridsize; j++)
+                {
+                    // If not clean or not vaccum alone, add localisation into the list
+                    if (state[i, j] > 1)
+                    {
+                        cooList.Add((i, j, state[i, j]));
+                    }
+                }
+            }
+
+            return cooList;
+        }
+
+
+
     }
 }

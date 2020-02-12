@@ -19,6 +19,8 @@ namespace IA_TP1_Aspirateur_intelligent
         private Thread juwelThread;
         private Thread vacThread;
 
+        private List<string> events;
+
         private Random random = new Random();
 
         private Manor()
@@ -27,6 +29,12 @@ namespace IA_TP1_Aspirateur_intelligent
             schmutzfabrik = new Schmutzfabrik(probmatrixGenerator());
             juwelfabrik = new Juwelfabrik(probmatrixGenerator());
             aspirateur = new Aspirateur();
+            events = new List<string>();
+            events.Add("nothing");
+            events.Add("nothing");
+            events.Add("nothing");
+            events.Add("nothing");
+
         }
 
         public static Manor getInstance()
@@ -37,6 +45,47 @@ namespace IA_TP1_Aspirateur_intelligent
             }
             return instance;
         }
+
+        //Boucle principale
+        public void setAlive(string strategy)
+        {
+            schmutzThread = new Thread(new ThreadStart(schmutzfabrikThread));
+            juwelThread = new Thread(new ThreadStart(juwelfabrikThread));
+
+            if (strategy != "n")
+            {
+                vacThread = new Thread(new ThreadStart(vaccumThreadInforme));
+            }
+            else
+            {
+                vacThread = new Thread(new ThreadStart(vaccumThread));
+            }
+
+            schmutzThread.Start();
+            Thread.Sleep(2000);
+            juwelThread.Start();
+            vacThread.Start();
+
+            while (true)
+            {
+                Console.Clear();
+                
+                if (strategy != "n")
+                {
+                    Console.WriteLine("Performance : " + aspirateur.getPerformance());
+                }
+                else
+                {
+                    Console.WriteLine("Performance : " + floor.tick());
+                }
+                printFloorState();
+                printActions();
+                Thread.Sleep(100);
+
+            }
+        }
+
+
 
         private int[,] probmatrixGenerator()
         {
@@ -56,6 +105,16 @@ namespace IA_TP1_Aspirateur_intelligent
             return probmatrix;
         }
 
+        public void pushEvent(string _event)
+        {
+            events.Insert(0, _event);
+            if (events.Count > 4)
+            {
+                events = events.GetRange(0, 4);
+            }
+        }
+
+        // Thread pour la poussiere
         private void schmutzfabrikThread()
         {
             while(true)
@@ -66,6 +125,7 @@ namespace IA_TP1_Aspirateur_intelligent
             }
         }
 
+        //Thread pour les bijoux
         private void juwelfabrikThread()
         {
             while (true)
@@ -81,31 +141,18 @@ namespace IA_TP1_Aspirateur_intelligent
             while(true)
             {
                 aspirateur.wake();
-
-                ///Thread.Sleep(1000);
             }
         }
 
-        public void setAlive()
+        //Thread agent
+        private void vaccumThreadInforme()
         {
-            schmutzThread = new Thread(new ThreadStart(schmutzfabrikThread));
-            juwelThread = new Thread(new ThreadStart(juwelfabrikThread));
-            vacThread = new Thread(new ThreadStart(vaccumThread));
-
-            schmutzThread.Start();
-            Thread.Sleep(2000);
-            juwelThread.Start();
-            vacThread.Start();
-
             while (true)
             {
-                Console.Clear();
-                Console.WriteLine("Performance : " + floor.tick());
-                printFloorState();
-                Thread.Sleep(500);
-                
+                aspirateur.wakeInforme();
             }
         }
+
 
         private void printFloorState()
         {
@@ -146,6 +193,14 @@ namespace IA_TP1_Aspirateur_intelligent
             Console.WriteLine("* -  -  -  -  - *");
         }
 
+        private void printActions()
+        {
+            Console.WriteLine("Actors did : " + events[0]);
+            Console.WriteLine("Actors did : " + events[1]);
+            Console.WriteLine("Actors did : " + events[2]);
+            Console.WriteLine("Actors did : " + events[3]);
+        }
+
         public int[,] getFloorState()
         {
             return floor.getState();
@@ -157,30 +212,5 @@ namespace IA_TP1_Aspirateur_intelligent
             return floor;
         }
 
-        public int[,] getAspDesire()
-        {
-            return aspirateur.getDesire();
-        }
-
-        public bool isArrayEqual(int[,] a, int[,] b)
-        {
-            if ( (a.GetLength(0) != b.GetLength(0)) || (a.GetLength(1) != b.GetLength(1)))
-            {
-                return false;
-            }
-
-            for (int i=0; i < a.GetLength(0); i++)
-            {
-                for (int j=0; j < a.GetLength(1); j++)
-                {
-                    if ( a[i,j] != b[i,j])
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
     }
 }
